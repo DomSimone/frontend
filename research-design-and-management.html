@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Design & Management - African Development Models Initiative</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Additional styles for Research Design page */
+        .multi-select-container {
+            position: relative;
+            width: 100%;
+        }
+        
+        .multi-select-header {
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-input);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .multi-select-header::after {
+            content: '▼';
+            font-size: 0.8em;
+            color: var(--text-muted);
+        }
+        
+        .multi-select-header.active {
+            border-color: var(--primary-green);
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        
+        .multi-select-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid var(--primary-green);
+            border-top: none;
+            border-radius: 0 0 var(--radius) var(--radius);
+            background: var(--bg-input);
+            z-index: 1000;
+        }
+        
+        .multi-select-dropdown.show {
+            display: block;
+        }
+        
+        .multi-select-dropdown .region-group {
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .multi-select-dropdown .region-header {
+            padding: 10px 12px;
+            background: var(--bg-secondary);
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+        
+        .multi-select-dropdown .region-header:hover {
+            background: var(--bg-tertiary);
+        }
+        
+        .multi-select-dropdown .region-header .toggle-icon {
+            transition: transform 0.2s;
+        }
+        
+        .multi-select-dropdown .region-header.expanded .toggle-icon {
+            transform: rotate(180deg);
+        }
+        
+        .multi-select-dropdown .country-list {
+            display: none;
+            padding: 5px 0;
+        }
+        
+        .multi-select-dropdown .country-list.show {
+            display: block;
+        }
+        
+        .multi-select-dropdown .country-option {
+            padding: 8px 12px 8px 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .multi-select-dropdown .country-option:hover {
+            background: var(--bg-tertiary);
+        }
+        
+        .multi-select-dropdown .country-option input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+        
+        .selected-countries {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        
+        .country-tag {
+            background: var(--primary-green);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .country-tag .remove-tag {
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .question-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .question-item .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .question-item .question-number {
+            font-weight: bold;
+            color: var(--primary-green);
+        }
+        
+        .question-item .remove-question {
+            background: var(--error);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .widget {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 15px;
+            position: relative;
+        }
+        
+        .widget .remove-widget {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--error);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .chart-container {
+            height: 200px;
+        }
+        
+        .animated-figure-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 150px;
+        }
+        
+        .animated-figure {
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--primary-green);
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .chat-container {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+        
+        .chat-window {
+            height: 300px;
+            overflow-y: auto;
+            padding: 15px;
+            background: var(--bg-secondary);
+        }
+        
+        .chat-message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: var(--radius);
+        }
+        
+        .chat-message.user {
+            background: var(--primary-green);
+            color: white;
+            margin-left: 20%;
+        }
+        
+        .chat-message.assistant {
+            background: var(--bg-tertiary);
+            margin-right: 20%;
+        }
+        
+        .chat-input-area {
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+            background: var(--bg-input);
+        }
+        
+        .chat-input-area textarea {
+            flex: 1;
+            resize: none;
+        }
+        
+        .output-area {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 10px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img id="app-logo" src="https://raw.githubusercontent.com/DomSimone/ADMI232/refs/heads/main/static/logo.png" alt="African Development Models Initiative Logo">
+        <h1>African Development Models Initiative</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about-us.html">About Us</a></li>
+            <li><a href="research-design-and-management.html" class="active">Research Design & Management</a></li>
+            <li><a href="data-ingestion.html">Data Ingestion & Analysis</a></li>
+            <li><a href="ai-agent.html">AI Agent</a></li>
+            <li><a href="research-repository.html">Research Repository</a></li>
+            <li><a href="terms-of-use.html">Terms of Use</a></li>
+            <li><a href="contact-us.html">Contact Us</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="http://localhost:63342/Stripper/frontend/index.html" target="_blank" rel="noopener noreferrer">Umbuzo</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <!-- Survey Creation Section -->
+        <section id="create-survey">
+            <h2>Create New Survey</h2>
+            <div class="section-content">
+                <form id="surveyCreationForm">
+                    <div class="form-group">
+                        <label for="surveyTitle">Survey Title:</label>
+                        <input type="text" id="surveyTitle" name="surveyTitle" required>
+                    </div>
+
+                    <!-- Research Categorization Section -->
+                    <h3>Research Categorization</h3>
+                    <div class="form-group">
+                        <label for="researchTheme">Research Theme:</label>
+                        <select id="researchTheme" name="researchTheme">
+                            <option value="">Select a Theme</option>
+                            <option value="demographics_social">Demographics & Social Dynamics</option>
+                            <option value="economic_livelihoods">Economic Development & Livelihoods</option>
+                            <option value="governance_civic">Governance, Civic Engagement & Public Services</option>
+                            <option value="urbanization_quality">Urbanization & Quality of Life</option>
+                            <option value="human_capital_wellness">Human Capital & Well-being</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="subTopicGroup" style="display: none;">
+                        <label for="researchSubTopic">Research Sub-Topic:</label>
+                        <select id="researchSubTopic" name="researchSubTopic">
+                            <option value="">Select a Sub-Topic</option>
+                        </select>
+                    </div>
+
+                    <!-- Geographic Focus Section -->
+                    <h3>Geographic Focus</h3>
+                    <div class="form-group">
+                        <label for="geoRegion">Region:</label>
+                        <select id="geoRegion" name="geoRegion">
+                            <option value="">Select a Region</option>
+                            <option value="Africa (Continental)">Africa (Continental)</option>
+                            <option value="Northern Africa">Northern Africa</option>
+                            <option value="Western Africa">Western Africa</option>
+                            <option value="Central Africa">Central Africa</option>
+                            <option value="Eastern Africa">Eastern Africa</option>
+                            <option value="Southern Africa">Southern Africa</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="geoCountryGroup" style="display: none;">
+                        <label for="geoCountry">Country (Single Selection):</label>
+                        <select id="geoCountry" name="geoCountry">
+                            <option value="">Select a Country</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Country (Multi-select):</label>
+                        <div class="multi-select-container">
+                            <div class="multi-select-header" id="multiSelectHeader">Select Countries...</div>
+                            <div class="multi-select-dropdown" id="multiSelectDropdown"></div>
+                        </div>
+                        <div class="selected-countries" id="selectedCountries"></div>
+                    </div>
+
+                    <h3>Survey Questions</h3>
+                    <div id="surveyQuestionsContainer"></div>
+                    <button type="button" id="addQuestionBtn" class="btn">Add Question</button>
+                    
+                    <h3>Survey Schedule</h3>
+                    <div class="form-group">
+                        <label for="goLiveDateTime">Go Live Date & Time:</label>
+                        <input type="datetime-local" id="goLiveDateTime" name="goLiveDateTime" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="stopDateTime">Stop Taking Answers Date & Time:</label>
+                        <input type="datetime-local" id="stopDateTime" name="stopDateTime" required>
+                    </div>
+                    
+                    <h3>USSD Integration (Optional)</h3>
+                    <div class="form-group">
+                        <input type="checkbox" id="enableUssd" name="enableUssd">
+                        <label for="enableUssd">Enable USSD Integration</label>
+                    </div>
+                    <div id="ussdOptions" style="display: none;">
+                        <div class="form-group">
+                            <label for="ussdNumber">USSD Number for Responses:</label>
+                            <input type="text" id="ussdNumber" name="ussdNumber" placeholder="e.g., *123#">
+                        </div>
+                        <div class="form-group">
+                            <label>Generated USSD String (Preview):</label>
+                            <pre id="ussdStringPreview" class="output-area"></pre>
+                        </div>
+                    </div>
+
+                    <!-- Survey Visibility Options -->
+                    <h3>Survey Visibility</h3>
+                    <div class="form-group">
+                        <input type="radio" id="visibilityPublic" name="surveyVisibility" value="public" checked>
+                        <label for="visibilityPublic">Public (visible in Public Repository)</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="radio" id="visibilityPrivate" name="surveyVisibility" value="private">
+                        <label for="visibilityPrivate">Private (visible only in Members' Repository)</label>
+                    </div>
+
+                    <button type="submit" class="btn primary-btn">Create Survey</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Research Dashboard Section -->
+        <section id="research-dashboard">
+            <h2>Research Management Dashboard</h2>
+            <div class="section-content">
+                <p>Your customizable research overview. Add, remove, and arrange widgets to personalize your view.</p>
+                <div class="dashboard-controls">
+                    <button id="addWidgetBtn" class="btn">Add Widget</button>
+                </div>
+                <div id="dashboard-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    <!-- Widget 1: Bar Chart -->
+                    <div class="widget">
+                        <h3>Survey Responses</h3>
+                        <div class="chart-container">
+                            <canvas id="barChart"></canvas>
+                        </div>
+                        <button class="remove-widget">&times;</button>
+                    </div>
+                    <!-- Widget 2: Line Chart -->
+                    <div class="widget">
+                        <h3>Trend Analysis</h3>
+                        <div class="chart-container">
+                            <canvas id="lineChart"></canvas>
+                        </div>
+                        <button class="remove-widget">&times;</button>
+                    </div>
+                    <!-- Widget 3: Animated Figure -->
+                    <div class="widget">
+                        <h3>Progress Indicator</h3>
+                        <div class="animated-figure-container">
+                            <div class="animated-figure"></div>
+                        </div>
+                        <p style="text-align: center; margin-top: 10px;">Data processing in progress...</p>
+                        <button class="remove-widget">&times;</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Research Terminal -->
+        <section id="interactive-research-assistant">
+            <h2>Interactive Research Assistant</h2>
+            <div class="section-content">
+                <p>Select a data source and ask the AI for advice on research design, question phrasing, and data analysis.</p>
+                <div class="form-group">
+                    <label for="research-context-select">Select Data Context (Survey):</label>
+                    <select id="research-context-select">
+                        <option value="">None</option>
+                    </select>
+                </div>
+                <div class="chat-container">
+                    <div id="research-chat-window" class="chat-window">
+                        <div class="chat-message assistant">
+                            Hello! I'm your research assistant. How can I help you with your research design today?
+                        </div>
+                    </div>
+                    <div class="chat-input-area">
+                        <textarea id="research-chat-input" placeholder="Ask for research advice..." rows="3"></textarea>
+                        <button id="send-research-chat-btn" class="btn">Send</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Visualization Section -->
+        <section id="graphics-section">
+            <h2>Data Visualization</h2>
+            <div class="section-content">
+                <div id="graphics-output" class="graphics-container">
+                    <p>Graphs and charts based on your terminal commands will be displayed here.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 African Development Models Initiative. All rights reserved.</p>
+        <p>A Patson Malisa Foundation Project.</p>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // ============================================================
+            // AFRICAN COUNTRIES BY REGION DATA
+            // ============================================================
+            const countriesByRegion = {
+                'Northern Africa': [
+                    'Algeria', 'Egypt', 'Libya', 'Morocco', 'Sudan', 'Tunisia', 'Western Sahara'
+                ],
+                'Western Africa': [
+                    'Benin', 'Burkina Faso', 'Cape Verde', 'Côte d\'Ivoire', 'Gambia', 'Ghana',
+                    'Guinea', 'Guinea-Bissau', 'Liberia', 'Mali', 'Mauritania', 'Niger',
+                    'Nigeria', 'Senegal', 'Sierra Leone', 'Togo'
+                ],
+                'Central Africa': [
+                    'Angola', 'Cameroon', 'Central African Republic', 'Chad', 'Congo (Brazzaville)',
+                    'Congo (Kinshasa)', 'Equatorial Guinea', 'Gabon', 'São Tomé and Príncipe'
+                ],
+                'Eastern Africa': [
+                    'Burundi', 'Comoros', 'Djibouti', 'Eritrea', 'Ethiopia', 'Kenya',
+                    'Madagascar', 'Malawi', 'Mauritius', 'Mozambique', 'Rwanda', 'Seychelles',
+                    'Somalia', 'South Sudan', 'Tanzania', 'Uganda', 'Zambia', 'Zimbabwe'
+                ],
+                'Southern Africa': [
+                    'Botswana', 'Eswatini', 'Lesotho', 'Namibia', 'South Africa'
+                ],
+                'Africa (Continental)': [
+                    'All African Countries'
+                ]
+            };
+
+            // Research sub-topics by theme
+            const subTopicsByTheme = {
+                'demographics_social': [
+                    'Population Dynamics',
+                    'Migration Patterns',
+                    'Age Structure',
+                    'Gender Issues',
+                    'Ethnicity & Identity',
+                    'Social Networks',
+                    'Family Structure'
+                ],
+                'economic_livelihoods': [
+                    'Employment & Jobs',
+                    'Income & Poverty',
+                    'Agriculture & Food Security',
+                    'Entrepreneurship',
+                    'Trade & Markets',
+                    'Financial Inclusion',
+                    'Remittances'
+                ],
+                'governance_civic': [
+                    'Democracy & Elections',
+                    'Public Service Delivery',
+                    'Corruption & Accountability',
+                    'Civil Society',
+                    'Human Rights',
+                    'Justice System',
+                    'Policy Analysis'
+                ],
+                'urbanization_quality': [
+                    'Urban Planning',
+                    'Housing & Shelter',
+                    'Transportation',
+                    'Water & Sanitation',
+                    'Environmental Quality',
+                    'Slums & Informal Settlements',
+                    'Smart Cities'
+                ],
+                'human_capital_wellness': [
+                    'Education & Literacy',
+                    'Healthcare Access',
+                    'Disease Prevention',
+                    'Nutrition',
+                    'Mental Health',
+                    'Skills Development',
+                    'Youth Development'
+                ]
+            };
+
+            // ============================================================
+            // SINGLE COUNTRY SELECTION BY REGION
+            // ============================================================
+            const geoRegion = document.getElementById('geoRegion');
+            const geoCountryGroup = document.getElementById('geoCountryGroup');
+            const geoCountry = document.getElementById('geoCountry');
+
+            if (geoRegion) {
+                geoRegion.addEventListener('change', (e) => {
+                    const region = e.target.value;
+                    
+                    if (region && countriesByRegion[region]) {
+                        // Show country dropdown
+                        geoCountryGroup.style.display = 'block';
+                        
+                        // Populate countries
+                        geoCountry.innerHTML = '<option value="">Select a Country</option>';
+                        
+                        if (region === 'Africa (Continental)') {
+                            geoCountry.innerHTML += '<option value="All Countries">All African Countries</option>';
+                        } else {
+                            countriesByRegion[region].forEach(country => {
+                                geoCountry.innerHTML += `<option value="${country}">${country}</option>`;
+                            });
+                        }
+                    } else {
+                        geoCountryGroup.style.display = 'none';
+                    }
+                });
+            }
+
+            // ============================================================
+            // MULTI-SELECT COUNTRY DROPDOWN WITH REGION SCROLL
+            // ============================================================
+            const multiSelectHeader = document.getElementById('multiSelectHeader');
+            const multiSelectDropdown = document.getElementById('multiSelectDropdown');
+            const selectedCountriesContainer = document.getElementById('selectedCountries');
+            
+            let selectedCountries = [];
+
+            // Build the multi-select dropdown
+            function buildMultiSelectDropdown() {
+                let html = '';
+                
+                Object.entries(countriesByRegion).forEach(([region, countries]) => {
+                    html += `
+                        <div class="region-group">
+                            <div class="region-header" data-region="${region}">
+                                <span>${region}</span>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="country-list" data-region="${region}">
+                    `;
+                    
+                    countries.forEach(country => {
+                        html += `
+                            <div class="country-option">
+                                <input type="checkbox" id="country-${country.replace(/\s+/g, '-')}" 
+                                       value="${country}" data-region="${region}">
+                                <label for="country-${country.replace(/\s+/g, '-')}">${country}</label>
+                            </div>
+                        `;
+                    });
+                    
+                    html += '</div></div>';
+                });
+                
+                multiSelectDropdown.innerHTML = html;
+                
+                // Add event listeners for region headers
+                document.querySelectorAll('.region-header').forEach(header => {
+                    header.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const region = header.dataset.region;
+                        const countryList = document.querySelector(`.country-list[data-region="${region}"]`);
+                        
+                        header.classList.toggle('expanded');
+                        countryList.classList.toggle('show');
+                    });
+                });
+                
+                // Add event listeners for country checkboxes
+                document.querySelectorAll('.country-option input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.addEventListener('change', (e) => {
+                        const country = e.target.value;
+                        const region = e.target.dataset.region;
+                        
+                        if (e.target.checked) {
+                            if (!selectedCountries.find(c => c.name === country)) {
+                                selectedCountries.push({ name: country, region: region });
+                            }
+                        } else {
+                            selectedCountries = selectedCountries.filter(c => c.name !== country);
+                        }
+                        
+                        updateSelectedCountriesDisplay();
+                    });
+                });
+            }
+
+            // Toggle dropdown
+            if (multiSelectHeader) {
+                multiSelectHeader.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    multiSelectDropdown.classList.toggle('show');
+                    multiSelectHeader.classList.toggle('active');
+                });
+            }
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.multi-select-container')) {
+                    multiSelectDropdown?.classList.remove('show');
+                    multiSelectHeader?.classList.remove('active');
+                }
+            });
+
+            // Update selected countries display
+            function updateSelectedCountriesDisplay() {
+                if (selectedCountries.length === 0) {
+                    multiSelectHeader.textContent = 'Select Countries...';
+                    selectedCountriesContainer.innerHTML = '';
+                } else {
+                    multiSelectHeader.textContent = `${selectedCountries.length} country(ies) selected`;
+                    
+                    let tagsHtml = '';
+                    selectedCountries.forEach(country => {
+                        tagsHtml += `
+                            <span class="country-tag">
+                                ${country.name}
+                                <span class="remove-tag" data-country="${country.name}">&times;</span>
+                            </span>
+                        `;
+                    });
+                    selectedCountriesContainer.innerHTML = tagsHtml;
+                    
+                    // Add remove listeners
+                    document.querySelectorAll('.remove-tag').forEach(tag => {
+                        tag.addEventListener('click', (e) => {
+                            const countryName = e.target.dataset.country;
+                            selectedCountries = selectedCountries.filter(c => c.name !== countryName);
+                            
+                            // Uncheck the checkbox
+                            const checkbox = document.querySelector(`input[value="${countryName}"]`);
+                            if (checkbox) checkbox.checked = false;
+                            
+                            updateSelectedCountriesDisplay();
+                        });
+                    });
+                }
+            }
+
+            // Initialize multi-select dropdown
+            buildMultiSelectDropdown();
+
+            // ============================================================
+            // RESEARCH THEME SUB-TOPICS
+            // ============================================================
+            const researchTheme = document.getElementById('researchTheme');
+            const subTopicGroup = document.getElementById('subTopicGroup');
+            const researchSubTopic = document.getElementById('researchSubTopic');
+
+            if (researchTheme) {
+                researchTheme.addEventListener('change', (e) => {
+                    const theme = e.target.value;
+                    
+                    if (theme && subTopicsByTheme[theme]) {
+                        subTopicGroup.style.display = 'block';
+                        researchSubTopic.innerHTML = '<option value="">Select a Sub-Topic</option>';
+                        
+                        subTopicsByTheme[theme].forEach(topic => {
+                            researchSubTopic.innerHTML += `<option value="${topic}">${topic}</option>`;
+                        });
+                    } else {
+                        subTopicGroup.style.display = 'none';
+                    }
+                });
+            }
+
+            // ============================================================
+            // SURVEY QUESTIONS MANAGEMENT
+            // ============================================================
+            const surveyQuestionsContainer = document.getElementById('surveyQuestionsContainer');
+            const addQuestionBtn = document.getElementById('addQuestionBtn');
+            let questionCount = 0;
+
+            const questionTypes = [
+                'Short Text',
+                'Long Text',
+                'Multiple Choice',
+                'Checkboxes',
+                'Dropdown',
+                'Scale (1-5)',
+                'Yes/No',
+                'Date',
+                'Number'
+            ];
+
+            function addQuestion() {
+                questionCount++;
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-item';
+                questionDiv.innerHTML = `
+                    <div class="question-header">
+                        <span class="question-number">Question ${questionCount}</span>
+                        <button type="button" class="remove-question">&times;</button>
+                    </div>
+                    <div class="form-group">
+                        <label>Question Text:</label>
+                        <input type="text" class="question-text" placeholder="Enter your question..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Question Type:</label>
+                        <select class="question-type">
+                            ${questionTypes.map(t => `<option value="${t}">${t}</option>`).join('')}
+                        </select>
+                    </div>
+                    <div class="form-group options-group" style="display: none;">
+                        <label>Options (one per line):</label>
+                        <textarea class="question-options" rows="3" placeholder="Option 1&#10;Option 2&#10;Option 3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" class="question-required"> Required
+                        </label>
+                    </div>
+                `;
+                
+                surveyQuestionsContainer.appendChild(questionDiv);
+                
+                // Add remove listener
+                questionDiv.querySelector('.remove-question').addEventListener('click', () => {
+                    questionDiv.remove();
+                    renumberQuestions();
+                });
+                
+                // Show/hide options based on question type
+                const typeSelect = questionDiv.querySelector('.question-type');
+                const optionsGroup = questionDiv.querySelector('.options-group');
+                
+                typeSelect.addEventListener('change', (e) => {
+                    const showOptions = ['Multiple Choice', 'Checkboxes', 'Dropdown'].includes(e.target.value);
+                    optionsGroup.style.display = showOptions ? 'block' : 'none';
+                });
+            }
+
+            function renumberQuestions() {
+                const questions = surveyQuestionsContainer.querySelectorAll('.question-item');
+                questions.forEach((q, i) => {
+                    q.querySelector('.question-number').textContent = `Question ${i + 1}`;
+                });
+                questionCount = questions.length;
+            }
+
+            if (addQuestionBtn) {
+                addQuestionBtn.addEventListener('click', addQuestion);
+                // Add first question by default
+                addQuestion();
+            }
+
+            // ============================================================
+            // USSD INTEGRATION
+            // ============================================================
+            const enableUssd = document.getElementById('enableUssd');
+            const ussdOptions = document.getElementById('ussdOptions');
+            const ussdNumber = document.getElementById('ussdNumber');
+            const ussdStringPreview = document.getElementById('ussdStringPreview');
+
+            if (enableUssd) {
+                enableUssd.addEventListener('change', (e) => {
+                    ussdOptions.style.display = e.target.checked ? 'block' : 'none';
+                    updateUssdPreview();
+                });
+            }
+
+            if (ussdNumber) {
+                ussdNumber.addEventListener('input', updateUssdPreview);
+            }
+
+            function updateUssdPreview() {
+                if (!ussdStringPreview) return;
+                
+                const number = ussdNumber?.value || '*123#';
+                const surveyTitle = document.getElementById('surveyTitle')?.value || 'Survey';
+                const questions = surveyQuestionsContainer.querySelectorAll('.question-item');
+                
+                let preview = `USSD: ${number}\n\n`;
+                preview += `Survey: ${surveyTitle}\n`;
+                preview += `Questions: ${questions.length}\n\n`;
+                preview += `Sample Flow:\n`;
+                preview += `1. Welcome to ${surveyTitle}\n`;
+                
+                questions.forEach((q, i) => {
+                    const text = q.querySelector('.question-text')?.value || `Question ${i + 1}`;
+                    preview += `${i + 2}. ${text.substring(0, 30)}${text.length > 30 ? '...' : ''}\n`;
+                });
+                
+                preview += `\nThank you for participating!`;
+                
+                ussdStringPreview.textContent = preview;
+            }
+
+            // ============================================================
+            // SURVEY FORM SUBMISSION
+            // ============================================================
+            const surveyCreationForm = document.getElementById('surveyCreationForm');
+
+            if (surveyCreationForm) {
+                surveyCreationForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    
+                    // Collect form data
+                    const surveyData = {
+                        title: document.getElementById('surveyTitle').value,
+                        theme: document.getElementById('researchTheme').value,
+                        subTopic: document.getElementById('researchSubTopic')?.value || '',
+                        region: document.getElementById('geoRegion').value,
+                        singleCountry: document.getElementById('geoCountry')?.value || '',
+                        multiCountries: selectedCountries.map(c => c.name),
+                        questions: [],
+                        schedule: {
+                            goLive: document.getElementById('goLiveDateTime').value,
+                            stop: document.getElementById('stopDateTime').value
+                        },
+                        ussd: {
+                            enabled: enableUssd?.checked || false,
+                            number: ussdNumber?.value || ''
+                        },
+                        visibility: document.querySelector('input[name="surveyVisibility"]:checked')?.value || 'public'
+                    };
+                    
+                    // Collect questions
+                    surveyQuestionsContainer.querySelectorAll('.question-item').forEach(q => {
+                        surveyData.questions.push({
+                            text: q.querySelector('.question-text').value,
+                            type: q.querySelector('.question-type').value,
+                            options: q.querySelector('.question-options')?.value || '',
+                            required: q.querySelector('.question-required')?.checked || false
+                        });
+                    });
+                    
+                    console.log('Survey Data:', surveyData);
+                    alert('Survey created successfully!\n\nCheck console for survey data.');
+                    
+                    // Here you would send to backend
+                    // fetch('/api/surveys', { method: 'POST', body: JSON.stringify(surveyData) });
+                });
+            }
+
+            // ============================================================
+            // DASHBOARD WIDGETS
+            // ============================================================
+            const addWidgetBtn = document.getElementById('addWidgetBtn');
+            const dashboardGrid = document.getElementById('dashboard-grid');
+
+            // Initialize charts
+            let barChart, lineChart;
+
+            function initCharts() {
+                const barCtx = document.getElementById('barChart');
+                const lineCtx = document.getElementById('lineChart');
+                
+                if (barCtx) {
+                    barChart = new Chart(barCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Survey A', 'Survey B', 'Survey C', 'Survey D'],
+                            datasets: [{
+                                label: 'Responses',
+                                data: [120, 85, 200, 65],
+                                backgroundColor: 'rgba(63, 185, 80, 0.6)',
+                                borderColor: 'rgba(63, 185, 80, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: { legend: { display: false } }
+                        }
+                    });
+                }
+                
+                if (lineCtx) {
+                    lineChart = new Chart(lineCtx, {
+                        type: 'line',
+                        data: {
+                            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                            datasets: [{
+                                label: 'Participation Rate',
+                                data: [30, 45, 60, 55, 70, 85],
+                                borderColor: 'rgba(88, 166, 255, 1)',
+                                backgroundColor: 'rgba(88, 166, 255, 0.2)',
+                                fill: true,
+                                tension: 0.4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: { legend: { display: false } }
+                        }
+                    });
+                }
+            }
+
+            initCharts();
+
+            // Remove widget buttons
+            document.querySelectorAll('.remove-widget').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.target.closest('.widget').remove();
+                });
+            });
+
+            // Add widget
+            if (addWidgetBtn) {
+                addWidgetBtn.addEventListener('click', () => {
+                    const widgetTypes = ['bar', 'line', 'pie', 'progress'];
+                    const type = widgetTypes[Math.floor(Math.random() * widgetTypes.length)];
+                    
+                    const widget = document.createElement('div');
+                    widget.className = 'widget';
+                    
+                    const canvasId = `chart-${Date.now()}`;
+                    
+                    if (type === 'progress') {
+                        widget.innerHTML = `
+                            <h3>Progress Indicator</h3>
+                            <div class="animated-figure-container">
+                                <div class="animated-figure"></div>
+                            </div>
+                            <p style="text-align: center; margin-top: 10px;">Processing...</p>
+                            <button class="remove-widget">&times;</button>
+                        `;
+                    } else {
+                        widget.innerHTML = `
+                            <h3>New Chart</h3>
+                            <div class="chart-container">
+                                <canvas id="${canvasId}"></canvas>
+                            </div>
+                            <button class="remove-widget">&times;</button>
+                        `;
+                    }
+                    
+                    dashboardGrid.appendChild(widget);
+                    
+                    // Add remove listener
+                    widget.querySelector('.remove-widget').addEventListener('click', () => {
+                        widget.remove();
+                    });
+                    
+                    // Initialize chart if needed
+                    if (type !== 'progress') {
+                        const ctx = document.getElementById(canvasId);
+                        new Chart(ctx, {
+                            type: type,
+                            data: {
+                                labels: ['A', 'B', 'C', 'D'],
+                                datasets: [{
+                                    data: [25, 35, 20, 20],
+                                    backgroundColor: [
+                                        'rgba(63, 185, 80, 0.6)',
+                                        'rgba(88, 166, 255, 0.6)',
+                                        'rgba(255, 193, 7, 0.6)',
+                                        'rgba(156, 39, 176, 0.6)'
+                                    ]
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: { legend: { display: false } }
+                            }
+                        });
+                    }
+                });
+            }
+
+            // ============================================================
+            // INTERACTIVE RESEARCH ASSISTANT
+            // ============================================================
+            const researchChatInput = document.getElementById('research-chat-input');
+            const sendResearchChatBtn = document.getElementById('send-research-chat-btn');
+            const researchChatWindow = document.getElementById('research-chat-window');
+
+            function addChatMessage(message, isUser = false) {
+                const msgDiv = document.createElement('div');
+                msgDiv.className = `chat-message ${isUser ? 'user' : 'assistant'}`;
+                msgDiv.textContent = message;
+                researchChatWindow.appendChild(msgDiv);
+                researchChatWindow.scrollTop = researchChatWindow.scrollHeight;
+            }
+
+            if (sendResearchChatBtn) {
+                sendResearchChatBtn.addEventListener('click', () => {
+                    const message = researchChatInput.value.trim();
+                    if (!message) return;
+                    
+                    addChatMessage(message, true);
+                    researchChatInput.value = '';
+                    
+                    // Simulate AI response
+                    setTimeout(() => {
+                        const responses = [
+                            "That's a great question! For research design, I recommend starting with clear objectives and hypotheses.",
+                            "Consider using mixed methods for a more comprehensive understanding of your research topic.",
+                            "When designing survey questions, avoid leading questions and ensure they are unbiased.",
+                            "For sample size calculation, consider your population size, confidence level, and margin of error.",
+                            "I suggest piloting your survey with a small group before full deployment."
+                        ];
+                        const response = responses[Math.floor(Math.random() * responses.length)];
+                        addChatMessage(response);
+                    }, 1000);
+                });
+            }
+
+            if (researchChatInput) {
+                researchChatInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        sendResearchChatBtn.click();
+                    }
+                });
+            }
+
+            // ============================================================
+            // SURVEY CONTEXT SELECT
+            // ============================================================
+            const researchContextSelect = document.getElementById('research-context-select');
+            
+            // Populate with sample surveys (would come from backend in production)
+            if (researchContextSelect) {
+                const sampleSurveys = [
+                    'Community Health Assessment 2024',
+                    'Economic Livelihood Survey',
+                    'Education Access Study',
+                    'Urban Migration Patterns'
+                ];
+                
+                sampleSurveys.forEach(survey => {
+                    const option = document.createElement('option');
+                    option.value = survey;
+                    option.textContent = survey;
+                    researchContextSelect.appendChild(option);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

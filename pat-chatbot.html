@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pat - Your Personal Assistant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <img id="app-logo" src="https://raw.githubusercontent.com/DomSimone/ADMI232/refs/heads/main/static/logo.png" alt="African Development Models Initiative Logo">
+        <h1>African Development Models Initiative</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about-us.html">About Us</a></li>
+            <li><a href="research-design-and-management.html">Research Design & Management</a></li>
+            <li><a href="data-ingestion.html">Data Ingestion & Analysis</a></li>
+            <li><a href="ai-agent.html">AI Agent</a></li>
+            <li><a href="research-repository.html">Research Repository</a></li>
+            <li><a href="B:\Stripper\frontend\index.html" class="active">Umbuzo</a></li>
+            <li><a href="terms-of-use.html">Terms of Use</a></li>
+            <li><a href="contact-us.html">Contact Us</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="http://localhost:63342/Stripper/frontend/index.html" target="_blank" rel="noopener noreferrer">Umbuzo</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <section id="pat-chatbot-section">
+            <h2>Chat with Pat</h2>
+            <div class="section-content">
+                <div class="pat-container">
+                    <div class="pat-avatar-area">
+                        <img src="Pat.png" alt="Pat - Chatbot Avatar" class="pat-avatar">
+                    </div>
+                    <div class="chat-container">
+                        <div id="pat-chat-window" class="chat-window">
+                            <!-- Chat messages will be appended here -->
+                        </div>
+                        <div class="chat-input-area">
+                            <textarea id="pat-chat-input" placeholder="Ask Pat anything..."></textarea>
+                            <button id="send-pat-chat-btn" class="btn">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 African Development Models Initiative. All rights reserved.</p>
+        <p>A Patson Malisa Foundation Project.</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

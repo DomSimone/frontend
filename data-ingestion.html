@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Ingestion & Analysis - African Development Models Initiative</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <img id="app-logo" src="https://raw.githubusercontent.com/DomSimone/ADMI232/refs/heads/main/static/logo.png" alt="African Development Models Initiative Logo">
+        <h1>African Development Models Initiative</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about-us.html">About Us</a></li>
+            <li><a href="research-design-and-management.html">Research Design & Management</a></li>
+            <li><a href="data-ingestion.html" class="active">Data Ingestion & Analysis</a></li>
+            <li><a href="ai-agent.html">AI Agent</a></li>
+            <li><a href="research-repository.html">Research Repository</a></li>
+            <li><a href="terms-of-use.html">Terms of Use</a></li>
+            <li><a href="contact-us.html">Contact Us</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="http://localhost:63342/Stripper/frontend/index.html" target="_blank" rel="noopener noreferrer">Umbuzo</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <section id="data-ingestion-app">
+            <h2>Data Ingestion & Analysis</h2>
+            <div class="section-content">
+                <p>Select a data source, configure your model, and start the processing or analysis job.</p>
+
+                <!-- Data Source Selection -->
+                <div class="ingestion-section">
+                    <h3>1. Select Data Source</h3>
+                    <div class="form-group">
+                        <input type="radio" id="sourceFileUpload" name="dataSource" value="file" checked>
+                        <label for="sourceFileUpload">Upload New File</label>
+                        <input type="radio" id="sourceExistingData" name="dataSource" value="existing">
+                        <label for="sourceExistingData">Use Existing App Data</label>
+                    </div>
+                </div>
+
+                <!-- File Upload Section -->
+                <div id="fileUploadSection" class="ingestion-section">
+                    <h3>2. Upload Files</h3>
+                    <div id="dropZone" class="drop-zone">
+                        <p>Drag & drop files here, or <button type="button" id="browseBtn" class="btn">Browse Files</button></p>
+                        <input type="file" id="fileInput" multiple style="display: none;">
+                    </div>
+                    <h4>Files to Ingest:</h4>
+                    <ul id="fileList" class="file-list">
+                        <!-- Files will be listed here -->
+                    </ul>
+                </div>
+
+                <!-- Existing Data Section -->
+                <div id="existingDataSection" class="ingestion-section" style="display: none;">
+                    <h3>2. Select Existing Data</h3>
+                    <div class="form-group">
+                        <label for="existingDataSelect">Select a Survey:</label>
+                        <select id="existingDataSelect" name="existingDataSelect">
+                            <option value="">Loading surveys...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Model Configuration Section -->
+                <div class="ingestion-section">
+                    <h3>3. Configure AI Model</h3>
+                    <form id="modelConfigForm">
+                        <div class="form-group">
+                            <label for="modelSelect">Select Processing or Analysis Model:</label>
+                            <select id="modelSelect" name="modelSelect">
+                                <optgroup label="Data Processing">
+                                    <option value="ocr_standard">Standard OCR (for typed documents)</option>
+                                    <option value="ocr_handwriting">Handwriting OCR (for forms)</option>
+                                    <option value="data_classification">Data Classification</option>
+                                    <option value="auto_clean">Automated Data Cleaning</option>
+                                </optgroup>
+                                <optgroup label="Data Analysis">
+                                    <option value="regression">Regression Analysis</option>
+                                    <option value="ols">Ordinary Least Squares (OLS)</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="modelParams">Model Parameters (JSON format):</label>
+                            <textarea id="modelParams" name="modelParams" rows="3" placeholder='{"dependentVariable": "Y", "independentVariables": ["X1", "X2"]}'></textarea>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Start Ingestion/Analysis -->
+                <div class="ingestion-section">
+                    <h3>4. Start Job</h3>
+                    <button id="startIngestionBtn" class="btn primary-btn">Start Job</button>
+                </div>
+
+                <!-- Processing Status Section -->
+                <div class="ingestion-section">
+                    <h3>Job Status & Logs</h3>
+                    <pre id="processingLogs" class="output-area">Awaiting job...</pre>
+                </div>
+
+                <!-- Results Section -->
+                <div class="ingestion-section">
+                    <h3>Extraction Results</h3>
+                    <div id="resultsContainer" class="results-container">
+                        <div id="resultsTable" class="results-table"></div>
+                        <div class="results-actions">
+                            <button id="copyResultsBtn" class="btn">Copy to Clipboard</button>
+                            <button id="downloadResultsBtn" class="btn">Download CSV</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ingestion History Section -->
+                <div class="ingestion-section">
+                    <h3>Job History</h3>
+                    <table id="ingestionHistoryTable">
+                        <thead>
+                            <tr>
+                                <th>Data Source</th>
+                                <th>Model Used</th>
+                                <th>Status</th>
+                                <th>Timestamp</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- History rows will be added here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 African Development Models Initiative. All rights reserved.</p>
+        <p>A Patson Malisa Foundation Project.</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

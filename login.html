@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - African Development Models Initiative</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <img id="app-logo" src="https://raw.githubusercontent.com/DomSimone/ADMI232/refs/heads/main/static/logo.png" alt="African Development Models Initiative Logo">
+        <h1>African Development Models Initiative</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about-us.html">About Us</a></li>
+            <li><a href="research-design-and-management.html">Research Design & Management</a></li>
+            <li><a href="data-ingestion.html">Data Ingestion & Analysis</a></li>
+            <li><a href="ai-agent.html">AI Agent</a></li>
+            <li><a href="research-repository.html">Research Repository</a></li>
+            <li><a href="terms-of-use.html">Terms of Use</a></li>
+            <li><a href="contact-us.html">Contact Us</a></li>
+            <li><a href="login.html" class="active">Login</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <section id="login-section">
+            <h2>Log In to Your Account</h2>
+            <div class="form-container">
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-email">Email Address</label>
+                        <input type="email" id="login-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" required>
+                    </div>
+                    <button type="submit" class="btn primary-btn">Log In</button>
+                </form>
+                <div class="divider">or</div>
+                <button id="google-login-btn" class="btn google-btn">
+                    <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo">
+                    Log In with Google
+                </button>
+                <p class="auth-switch">Don't have an account? <a href="signup.html">Sign up here</a>.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 African Development Models Initiative. All rights reserved.</p>
+        <p>A Patson Malisa Foundation Project.</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
