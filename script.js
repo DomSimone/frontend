@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   // Use production backend URL from environment or default to Render backend
   const BACKEND_URL = window.location.hostname === 'localhost' 
-    ? 'http://localhost:3001'
-    : 'https://afdmi-123.onrender.com';
+    ? 'http://10.0.5.186:5001'
+    : 'hhttp://10.0.5.186:5001';
   
   const PYTHON_SERVICE_API = window.location.hostname === 'localhost' 
     ? 'http://localhost:5001'
