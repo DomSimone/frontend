@@ -184,8 +184,8 @@
     // CONFIGURATION
     // ============================================================
     
-    const PYTHON_API = 'https://www.pythonanywhere.com/user/domsimone/consoles/45393356/';  // Python langextract service
-    const NODE_API = 'https://www.pythonanywhere.com/user/domsimone/consoles/45393356/';  // Node.js backend for terminal
+   const PYTHON_API = 'https://domsimone.pythonanywhere.com';  
+    const NODE_API = 'https://domsimone.pythonanywhere.com';
 
     // ============================================================
     // PYDANTIC-STYLE SCHEMA DEFINITIONS (JavaScript mirrors Python)
@@ -1067,16 +1067,17 @@
       // SERVICE HEALTH CHECK
       // ============================================================
 
-      async function checkServiceHealth() {
+    async function checkServiceHealth() {
         try {
-          const response = await fetch(`${PYTHON_API}/health`);
-          const health = await response.json();
-          console.log('Python service health:', health);
+            const response = await fetch(`${PYTHON_API}/health`);
+            const data = await response.json();
+            console.log('Python Service Status:', data.status);
         } catch (err) {
-          console.warn('Python service not available:', err.message);
-          console.warn('Make sure to start the Python service: python workflows/langextract_service.py');
+            console.warn('Backend services not reachable at:', PYTHON_API);
         }
-      }
+    }
+
+    window.addEventListener('DOMContentLoaded', checkServiceHealth);
 
       // Check health on load
       checkServiceHealth();
