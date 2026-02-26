@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   // UPDATED: Production backend routing
   const BACKEND_URL = window.location.hostname.includes('vercel.app') 
-    ? 'https://your-node-backend-url.onrender.com' // Replace with your Node server URL
+    ? 'https://domsimone.pythonanywhere.com/process' // Replace with your Node server URL
     : 'http://localhost:3001';
   
   const PYTHON_SERVICE_API = 'https://domsimone.pythonanywhere.com'
