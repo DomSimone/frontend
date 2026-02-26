@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   // UPDATED: Production backend routing
-  const BACKEND_URL = window.location.hostname.includes('vercel.app') 
+  const BACKEND_URL = 'https://domsimone.pythonanywhere.com/process' 
     ? 'https://domsimone.pythonanywhere.com/process' // Replace with your Node server URL
     : 'http://localhost:3001';
   
