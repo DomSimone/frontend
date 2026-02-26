@@ -4,9 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ? 'https://your-node-backend-url.onrender.com' // Replace with your Node server URL
     : 'http://localhost:3001';
   
-  const PYTHON_SERVICE_API = window.location.hostname === 'localhost' 
-    ? 'http://localhost:5001'
-    : `${BACKEND_URL}/python`; // Python service proxied through backend
+  const PYTHON_SERVICE_API = 'https://domsimone.pythonanywhere.com'
   
   const NODE_API = `${BACKEND_URL}/api`; // Node.js backend for other operations
 
