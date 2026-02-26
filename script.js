@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Use production backend URL from environment or default to Render backend
-  const BACKEND_URL = window.location.hostname === 'localhost' 
-    ? 'https://www.pythonanywhere.com/user/domsimone/consoles/45393356/'
-    : 'https://www.pythonanywhere.com/user/domsimone/consoles/45393356/';
+  // UPDATED: Production backend routing
+  const BACKEND_URL = window.location.hostname.includes('vercel.app') 
+    ? 'https://your-node-backend-url.onrender.com' // Replace with your Node server URL
+    : 'http://localhost:3001';
   
   const PYTHON_SERVICE_API = window.location.hostname === 'localhost' 
     ? 'http://localhost:5001'
