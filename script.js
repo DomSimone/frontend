@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   // Use production backend URL from environment or default to Render backend
   const BACKEND_URL = window.location.hostname === 'localhost' 
-    ? 'http://10.0.5.186:5001'
-    : 'hhttp://10.0.5.186:5001';
+    ? 'https://www.pythonanywhere.com/user/domsimone/consoles/45393356/'
+    : 'https://www.pythonanywhere.com/user/domsimone/consoles/45393356/';
   
   const PYTHON_SERVICE_API = window.location.hostname === 'localhost' 
     ? 'http://localhost:5001'
