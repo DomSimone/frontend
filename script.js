@@ -287,7 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
   async function processSingleFile(file, modelType, params) {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('prompt', getPromptForModel(modelType, params));
+    formData.append('prompt', params || "Extract key data")
 
     const response = await fetch(`${PYTHON_SERVICE_API}/process`, {
       method: 'POST',
